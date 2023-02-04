@@ -48,6 +48,10 @@ print "molecule configuration: ";
 $molecule = <STDIN>;
 chomp $molecule;
 
+print "range parameter for Morse-like variables (default 2.0d0): ";
+$alpha = <STDIN>;
+chomp $alpha;
+
 say "Generating PIP basis...";
 `./msa $degree $molecule`;
 
@@ -55,6 +59,7 @@ say "Generating Fortran files...";
 `perl postemsa.pl $degree $molecule`;
 `perl derivative.pl $degree $molecule`;
 `gsed -i 's/real/real*8/g' *.f90`;
+`gsed -i 's/a = 2.0d0/a = $alpha/g' gradient.f90` if $alpha;
 
 say "Building Python module `msa`...";
 `f2py basis.f90 gradient.f90 -m msa -h msa.pyf --overwrite-signature`;
