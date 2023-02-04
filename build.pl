@@ -31,6 +31,15 @@ $in = <STDIN>;
 chomp $in;
 die "Goodbye!\n" unless $in =~ m/y/i or not $in;
 
+$which_f2py = `which f2py`;
+chomp $which_f2py;
+
+die "`Error: f2py` not found, building failed!\n" unless $which_f2py;
+
+print "Clean up after building? [Y/n] ";
+$in = <STDIN>;
+chomp($in);
+
 print "max degree of PIP: ";
 $degree = <STDIN>;
 chomp $degree;
@@ -47,15 +56,13 @@ say "Generating Fortran files...";
 `perl derivative.pl $degree $molecule`;
 `gsed -i 's/real/real*8/g' *.f90`;
 
-$which_f2py = `which f2py`;
-chomp $which_f2py;
-die "`f2py` not found.\n" if not $which_f2py;
-
 say "Building Python module `msa`...";
 `f2py basis.f90 gradient.f90 -m msa -h msa.pyf --overwrite-signature`;
 `f2py -c basis.f90 gradient.f90 msa.pyf`;
-`rm -rf *f90 *pyf MOL*`;
 
 say "Done!";
 say "Testing... Running command `from msa import basis, gradient; print(basis.__doc__); print(gradient.__doc__)`";
 say `python -c "from msa import basis, gradient; print(basis.__doc__); print(gradient.__doc__)"`;
+say "Please check the output if any error exists!";
+
+`rm -rf *f90 *pyf MOL*` if $in =~ m/y/i or not $in;
