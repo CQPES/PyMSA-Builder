@@ -38,7 +38,7 @@ die "`Error: f2py` not found, building failed!\n" unless $which_f2py;
 
 print "Clean up after building? [Y/n] ";
 $in = <STDIN>;
-chomp($in);
+chomp $in;
 
 print "max degree of PIP: ";
 $degree = <STDIN>;
@@ -58,16 +58,15 @@ say "Generating PIP basis...";
 say "Generating Fortran files...";
 `perl postemsa.pl $degree $molecule`;
 `perl derivative.pl $degree $molecule`;
-`gsed -i 's/real/real*8/g' *.f90`;
-`gsed -i 's/a = 2.0d0/a = $alpha/g' gradient.f90` if $alpha;
+`sed -i 's/real/real*8/g' *.f90`;
+`sed -i 's/a = 2.0d0/a = $alpha/g' gradient.f90` if $alpha;
 
 say "Building Python module `msa`...";
-`f2py basis.f90 gradient.f90 -m msa -h msa.pyf --overwrite-signature`;
-`f2py -c basis.f90 gradient.f90 msa.pyf`;
-
+`f2py basis.f90 gradient.f90 -m msa -h msa.pyf --overwrite-signature` or die "Building Error!\n";
+`f2py -c basis.f90 gradient.f90 msa.pyf` or die "Building Error!\n";
 say "Done!";
-say "Testing... Running command `from msa import basis, gradient; print(basis.__doc__); print(gradient.__doc__)`";
-say `python -c "from msa import basis, gradient; print(basis.__doc__); print(gradient.__doc__)"`;
+say "To test Python module `msa`, run command:";
+say "\$ python -c \"from msa import basis, gradient; print(basis.__doc__); print(gradient.__doc__)\"";
 say "Please check the output if any error exists!";
 
 `rm -rf *f90 *pyf MOL*` if $in =~ m/y/i or not $in;
