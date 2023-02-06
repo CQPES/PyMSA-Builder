@@ -7,6 +7,10 @@ msa
 derivative.pl
 postemsa.pl
 
+# Generated Fortran Codes
+*.f90
+
+# Perl
 .vstags
 
 # Byte-compiled / optimized / DLL files
