@@ -76,4 +76,4 @@ say "\$ python3 -c \"from msa import basis, gradient; print(basis.__doc__); prin
 say "Please check the output if any error exists!";
 
 # cleanup
-`rm -rf *f90 *pyf MOL*` if $in =~ m/y/i or not $in;
+`rm -rf *pyf MOL*` if $in =~ m/y/i or not $in;
