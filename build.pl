@@ -64,7 +64,7 @@ say "Generating Fortran files...";
 `perl postemsa.pl $degree $molecule`;
 `perl derivative.pl $degree $molecule`;
 `perl -pi -e "s/real/real\*8/g" *.f90`;
-`perl -pi -e "s/a\s+=\s+2.0d0/a = $alpha/g" gradient.f90` if $alpha;
+`perl -pi -e "s/a = 2.0d0/a = $alpha/g" gradient.f90` if $alpha;
 
 # Python module
 say "Building Python module `msa`...";
