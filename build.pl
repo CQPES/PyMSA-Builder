@@ -25,22 +25,16 @@ say "Done!";
 `cp msa $pymsa_dir && cp ../*.pl $pymsa_dir `;
 chdir $pymsa_dir;
 
-# input max degree of PIP and molecule configuration
-print "Do you want to build Python module with max degree of PIP and molecule configuration? [Y/n] ";
-$in = <STDIN>;
-chomp $in;
-die "Goodbye!\n" unless $in =~ m/y/i or not $in;
-
-# check `f2py`
-$which_f2py = `which f2py`;
-chomp $which_f2py;
-
-die "`Error: f2py` not found, building failed!\n" unless $which_f2py;
+# Python module?
+print "Do you want to build Python module? [Y/n] ";
+$py_mod = <STDIN>;
+chomp $py_mod;
+say "Only Fortran codes basis.f90 & gradient.f90 will be generated!" unless $py_mod =~ m/y/i or not $py_mod;
 
 # cleanup?
 print "Clean up after building? [Y/n] ";
-$in = <STDIN>;
-chomp $in;
+$cleanup = <STDIN>;
+chomp $cleanup;
 
 # parameters for PIP
 print "max degree of PIP: ";
@@ -67,13 +61,24 @@ say "Generating Fortran files...";
 `perl -pi -e "s/a = 2.0d0/a = $alpha/g" gradient.f90` if $alpha;
 
 # Python module
-say "Building Python module `msa`...";
-`f2py basis.f90 gradient.f90 -m msa -h msa.pyf --overwrite-signature` or die "Building Error!\n";
-`f2py -c basis.f90 gradient.f90 msa.pyf` or die "Building Error!\n";
-say "Done!";
-say "To test Python module `msa`, run command:";
-say "\$ python3 -c \"from msa import basis, gradient; print(basis.__doc__); print(gradient.__doc__)\"";
-say "Please check the output if any error exists!";
+if ($py_mod =~ m/y/i or not $py_mod) {
+    $which_f2py = `which f2py`;
+    chomp $which_f2py;
+    if ($which_f2py) {
+        say "Building Python module `msa`...";
+        `f2py basis.f90 gradient.f90 -m msa -h msa.pyf --overwrite-signature` or die "Building Error!\n";
+        `f2py -c basis.f90 gradient.f90 msa.pyf` or die "Building Error!\n";
+        say "Done!";
+        say "To test Python module `msa`, run command:";
+        say "\$ python3 -c \"from msa import basis, gradient; print(basis.__doc__); print(gradient.__doc__)\"";
+        say "Please check the output if any error exists!";
+    } else {
+        say "`Error: f2py` not found, building failed!" unless $which_f2py;
+    }
+}
 
 # cleanup
-`rm -rf *pyf MOL*` if $in =~ m/y/i or not $in;
+`rm -rf *pyf MOL*` if $in =~ m/y/i or not $cleanup;
+
+# Done
+say "Done!"
