@@ -22,7 +22,7 @@ chdir "$dependence/src/emsa";
 say "Done!";
 
 # copy files
-`cp msa $pymsa_dir && cp ../*.pl $pymsa_dir `;
+`cp msa $pymsa_dir;
 chdir $pymsa_dir;
 
 # Python module?
@@ -30,6 +30,12 @@ print "Do you want to build Python module? [Y/n] ";
 $py_mod = <STDIN>;
 chomp $py_mod;
 say "Only Fortran codes basis.f90 & gradient.f90 will be generated!" unless $py_mod =~ m/y/i or not $py_mod;
+
+# generate C source code?
+print "Do you want to generate C source files? [Y/n] ";
+$c_file = <STDIN>;
+chomp $c_file;
+say "C source files basis.c & gradient.c will be generated!" if $c_file =~ m/y/i or not $c_file;
 
 # cleanup?
 print "Clean up after building? [Y/n] ";
@@ -53,7 +59,7 @@ chomp $alpha;
 say "Generating PIP basis...";
 `./msa $degree $molecule`;
 
-# Fortran codes
+# Fortran files
 say "Generating Fortran files...";
 `perl postemsa.pl $degree $molecule`;
 `perl derivative.pl $degree $molecule`;
@@ -75,6 +81,11 @@ if ($py_mod =~ m/y/i or not $py_mod) {
     } else {
         say "`Error: f2py` not found, building failed!" unless $which_f2py;
     }
+}
+
+# C files
+if ($c_file =~ m/y/i or not $c_file) {
+    `perl postemsa_c.pl $degree $molecule`;
 }
 
 # cleanup

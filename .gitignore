@@ -4,11 +4,14 @@
 # MSA-2.0
 MSA-2.0/
 msa
-derivative.pl
-postemsa.pl
 
-# Generated Fortran Codes
+# Generated Fortran files
 *.f90
+
+# Generated C files
+*.h
+*.c
+*.o
 
 # Perl
 .vstags
