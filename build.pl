@@ -22,7 +22,7 @@ chdir "$dependence/src/emsa";
 say "Done!";
 
 # copy files
-`cp msa $pymsa_dir;
+`cp msa $pymsa_dir`;
 chdir $pymsa_dir;
 
 # Python module?

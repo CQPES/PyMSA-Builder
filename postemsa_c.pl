@@ -83,6 +83,9 @@ print_close(\*OUT);
 sub print_header_file {
     my ($out, $nx, $nm, $np) = @_;
 
+    print $out "#ifndef BASIS_H_\n";
+    print $out "#define BASIS_H_\n";
+    print $out "\n";
     print $out "#include <math.h>\n";
     print $out "\n";
     print $out "#define NX $nx\n";
@@ -92,6 +95,8 @@ sub print_header_file {
     print $out "void evmono(double x[NX], double m[NM + 1]);\n";
     print $out "void evpoly(double m[NM + 1], double p[NP + 1]);\n";
     print $out "void bemsav(double x[NX], double p[NP + 1]); \n";
+    print $out "\n";
+    print $out "#endif /* BASIS_H_ */\n";
 }
 
 sub print_definition {
