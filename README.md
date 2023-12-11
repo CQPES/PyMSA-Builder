@@ -5,6 +5,8 @@
 Wrapper for using [MSA-2.0](https://github.com/szquchen/MSA-2.0) to generate
 Fortran code, Python module, and C code.
 
+Author: mizu-bai
+
 ## Usage
 
 ```bash
