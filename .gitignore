@@ -3,15 +3,18 @@
 
 # MSA-2.0
 MSA-2.0/
-msa
 
-# Generated Fortran files
-*.f90
+# basis
+basis/
 
-# Generated C files
-*.h
-*.c
-*.o
+# fortran
+fortran/
+
+# python
+python/
+
+# c
+c/
 
 # Perl
 .vstags

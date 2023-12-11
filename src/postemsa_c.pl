@@ -30,8 +30,6 @@ close MONO;
 my $nx = $#{$dat_mono[0]};
 my $nm = $#dat_mono;
 
-print "\$nx = $nx, \$nm = $nm\n";
-
 # read in the POLY data file
 my @dat_poly = ();
 
@@ -46,8 +44,6 @@ while (<POLY>) {
 close POLY;
 
 my $np = $#dat_poly;
-
-print "\$np = $np\n";
 
 # write header file `basis.h`
 
