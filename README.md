@@ -1,4 +1,4 @@
-# PyMSA-Build
+# PyMSA-Builder
 
 ## Introduction
 
