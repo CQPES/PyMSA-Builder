@@ -174,10 +174,11 @@ sub print_mono_body {
         print $out "1.0" if $new;
         print $out ";";
     } else {
-        printf $out "m[%d]", $mono->[0];
+        my $idx = $mono->[0];
+        print $out "m[$idx]";
         for (my $i = 1; $i < $#$mono + 1; $i++) {
             my $idx = $mono->[$i];
-            printf $out " * m[%d]", $idx;
+            print $out " * m[$idx]";
             # print $out " \\\n        " if $i % 5 == 0 && $i < $#$mono;
         }
         print $out ";";
@@ -194,9 +195,8 @@ sub print_poly_body {
     if ($stat == 2) {
         printf $out "m[%d]", $poly->[0];
 
-        for (my $i = 1; $i < $#$poly; $i++) {
-            my $idx = $poly->[$i];
-            print $out " + m[$idx]";
+        for (my $i = 1; $i <= $#$poly; $i++) {
+            printf $out " + m[%d]", $poly->[$i];
             # print $out " \\\n        " if $i % 5 == 0 && $i < $#$poly;
         }
     } else {

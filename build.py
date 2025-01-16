@@ -75,7 +75,8 @@ if __name__ == "__main__":
     molecule = input("Molecule configuration: ")
     degree = input("Max degree of PIP: ")
     alpha = input(
-        "Range parameter alpha for Morse-like variable (default 2.0): "
+        "Range parameter alpha for Morse-like variable (default 2.0), "
+        "no need to add `d0` suffix: "
     )
 
     if not alpha:
