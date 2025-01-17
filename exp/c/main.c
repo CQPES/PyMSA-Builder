@@ -47,7 +47,7 @@ int main(int argc, const char *argv[]) {
     #ifdef DEBUG
 
     for (int i = 0; i < len_r; i++) {
-        printf("r[%d] = %20.10f\n", i, r[i]);
+        printf("r[%d] = %e\n", i, r[i]);
     }
 
     printf("\n");
