@@ -75,5 +75,10 @@ int main(int argc, const char *argv[]) {
 
     #endif
 
+    // free
+    free(r);
+    free(x);
+    free(p);
+
     return 0;
 }
